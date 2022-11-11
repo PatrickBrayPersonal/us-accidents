@@ -3,6 +3,9 @@ import click
 import logging
 from pathlib import Path
 from dotenv import find_dotenv, load_dotenv
+import dotenv
+import os
+import dask.dataframe as dd
 
 
 @click.command()
@@ -12,9 +15,20 @@ def main(input_filepath, output_filepath):
     """Runs data processing scripts to turn raw data from (../raw) into
     cleaned data ready to be analyzed (saved in ../processed).
     """
+    input_filepath = Path(input_filepath)
+    output_filepath = Path(output_filepath)
     logger = logging.getLogger(__name__)
     logger.info("making final data set from raw data")
+    accs = read_data(input_filepath / os.getenv("RAW_NAME"))
+    write_data(accs, output_filepath)
 
+def read_data(path):
+    return dd.read_csv(path, dtype={'Zipcode': 'object'})
+
+def write_data(accs, path):
+    logger = logging.getLogger(__name__)
+    accs.to_parquet(path / os.getenv("PROC_NAME"))
+    logger.info("wrote processed dataset to " + str(path / os.getenv("PROC_NAME")))
 
 if __name__ == "__main__":
     log_fmt = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
