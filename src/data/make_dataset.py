@@ -33,7 +33,11 @@ def transform_data(accs):
     accs["End_Time"] = accs["End_Time"].astype("datetime64[s]")
     accs["Start_DOW"] = accs["Start_Time"].dt.dayofweek
     accs["Start_Bucket"] = assign_bucket(accs["Start_Time"])
+    accs = filter_data(accs)
     return accs.set_index("Start_Time")
+
+def filter_data(accs):
+    return accs[accs["State"] == "DC"]
 
 
 def assign_bucket(times):
