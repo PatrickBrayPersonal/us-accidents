@@ -31,7 +31,13 @@ def read_data(path):
 def transform_data(accs):
     accs["Start_Time"] = accs["Start_Time"].astype("datetime64[s]")
     accs["End_Time"] = accs["End_Time"].astype("datetime64[s]")
+    accs["Start_DOW"] = accs["Start_Time"].dt.dayofweek
+    accs["Start_Bucket"] = assign_bucket(accs["Start_Time"])
     return accs.set_index("Start_Time")
+
+
+def assign_bucket(times):
+    return times.dt.hour
 
 
 def write_data(accs, path):
