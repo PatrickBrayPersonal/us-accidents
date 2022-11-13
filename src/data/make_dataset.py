@@ -20,15 +20,25 @@ def main(input_filepath, output_filepath):
     logger = logging.getLogger(__name__)
     logger.info("making final data set from raw data")
     accs = read_data(input_filepath / os.getenv("RAW_NAME"))
+    accs = transform_data(accs)
     write_data(accs, output_filepath)
 
+
 def read_data(path):
-    return dd.read_csv(path, dtype={'Zipcode': 'object'})
+    return dd.read_csv(path, dtype={"Zipcode": "object"})
+
+
+def transform_data(accs):
+    accs["Start_Time"] = accs["Start_Time"].astype("datetime64[s]")
+    accs["End_Time"] = accs["End_Time"].astype("datetime64[s]")
+    return accs.set_index("Start_Time")
+
 
 def write_data(accs, path):
     logger = logging.getLogger(__name__)
     accs.to_parquet(path / os.getenv("PROC_NAME"))
     logger.info("wrote processed dataset to " + str(path / os.getenv("PROC_NAME")))
+
 
 if __name__ == "__main__":
     log_fmt = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
