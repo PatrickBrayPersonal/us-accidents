@@ -1,3 +1,5 @@
+import streamlit as st
+from src.visualization.visualize import kde
 import os
 import dask.dataframe as dd
 from dotenv import find_dotenv, load_dotenv
@@ -13,17 +15,4 @@ accs = dd.read_parquet(
 )
 
 accs = accs[accs["State"] == "DC"]
-
-fig = px.density_mapbox(
-    accs.compute(),
-    lat="Start_Lat",
-    lon="Start_Lng",
-    radius=9,
-    animation_frame="Start_DOW",
-    category_orders={"Start_DOW": list(range(7))},
-    center=dict(lat=38.9, lon=-77),
-    zoom=8,
-    opacity=0.3,
-    mapbox_style="stamen-terrain",
-)
-fig.show()
+st.plotly_chart(kde(accs))
