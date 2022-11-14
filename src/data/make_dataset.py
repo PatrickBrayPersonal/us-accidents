@@ -36,6 +36,7 @@ def transform_data(accs):
     accs = filter_data(accs)
     return accs.set_index("Start_Time")
 
+
 def filter_data(accs):
     return accs[accs["State"] == "DC"]
 
