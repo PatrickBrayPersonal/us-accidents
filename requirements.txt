@@ -19,6 +19,7 @@ colorama==0.4.4
 commonmark==0.9.1
 coverage==6.5.0
 dask==2022.10.2
+db-dtypes==1.0.4
 debugpy==1.6.3
 decorator==5.1.1
 docutils==0.16
@@ -39,8 +40,8 @@ google-cloud-core==2.3.2
 google-crc32c==1.5.0
 google-resumable-media==2.4.0
 googleapis-common-protos==1.57.0
-grpcio==1.50.0
-grpcio-status==1.50.0
+grpcio==1.47.0
+grpcio-status==1.47.0
 idna==3.4
 imagesize==1.4.1
 importlib-metadata==5.0.0
@@ -75,11 +76,11 @@ platformdirs==2.5.3
 plotly==5.11.0
 prompt-toolkit==3.0.32
 proto-plus==1.22.1
-protobuf==4.21.9
+protobuf==3.19.6
 psutil==5.9.4
 ptyprocess==0.7.0
 pure-eval==0.2.2
-pyarrow==10.0.0
+pyarrow==9.0.0
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycodestyle==2.9.1
@@ -114,6 +115,7 @@ sphinxcontrib-htmlhelp==2.0.0
 sphinxcontrib-jsmath==1.0.1
 sphinxcontrib-qthelp==1.0.3
 sphinxcontrib-serializinghtml==1.1.5
+-e .
 stack-data==0.6.0
 streamlit==1.14.0
 tenacity==8.1.0
@@ -131,4 +133,3 @@ validators==0.20.0
 watchdog==2.1.9
 wcwidth==0.2.5
 zipp==3.10.0
--e .
