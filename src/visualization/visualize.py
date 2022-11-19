@@ -1,6 +1,9 @@
 import plotly.express as px
 
 
+def get_center(accs):
+    return dict(lat=accs.Start_Lat.mean(), lon=accs.Start_Lng.mean())
+
 def kde(accs):
     print(accs)
     fig = px.density_mapbox(
@@ -10,7 +13,7 @@ def kde(accs):
         radius=9,
         animation_frame="Start_DOW",
         category_orders={"Start_DOW": list(range(7))},
-        center=dict(lat=38.9, lon=-77),
+        center=get_center(accs),
         zoom=10.5,
         opacity=0.3,
         mapbox_style="stamen-terrain",
