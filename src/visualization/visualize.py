@@ -2,8 +2,9 @@ import plotly.express as px
 
 
 def kde(accs):
+    print(accs)
     fig = px.density_mapbox(
-        accs.compute(),
+        accs,
         lat="Start_Lat",
         lon="Start_Lng",
         radius=9,
