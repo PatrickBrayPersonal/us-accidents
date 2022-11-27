@@ -1,6 +1,7 @@
 import streamlit as st
 from src.visualization.visualize import kde
 from src.data.gcp_pull import get_accidents
+from src.data.preprocess import get_dayofweek
 import os
 import dask.dataframe as dd
 from dotenv import find_dotenv, load_dotenv
@@ -40,4 +41,4 @@ st.sidebar.button("Find Address", on_click=get_lat_lon)
 if "accs" not in st.session_state:
     st.session_state["accs"] = pd.DataFrame()
 if len(st.session_state["accs"]) > 0:
-    st.plotly_chart(kde(st.session_state["accs"]))
+    st.plotly_chart(kde(get_dayofweek(st.session_state["accs"])))
