@@ -6,11 +6,11 @@ load_dotenv(find_dotenv())
 client = bigquery.Client()
 
 
-def get_accidents(lat, lng, box_sz) -> float:
+def get_accidents(coords, box_sz) -> float:
     query = f"""
         SELECT Start_Lat, Start_Lng, Start_DOW
         FROM `dvahw3-365900.us_accidents.accidents` 
-        WHERE Start_Lat BETWEEN {lat - box_sz/2} AND {lat + box_sz/2} AND Start_Lng BETWEEN {lng - box_sz/2} AND {lng + box_sz/2}
+        WHERE Start_Lat BETWEEN {coords['lat'] - box_sz/2} AND {coords['lat'] + box_sz/2} AND Start_Lng BETWEEN {coords["lng"] - box_sz/2} AND {coords["lng"] + box_sz/2}
     """
     df = client.query(query).to_dataframe()
     return df

@@ -31,9 +31,11 @@ def get_lat_lon():
     )
     response = requests.request("GET", url, headers={}, data={})
     result = response.json()["candidates"][0]
-    st.session_state["accs"] = get_accidents(
-        result["geometry"]["location"]["lat"], result["geometry"]["location"]["lng"], 1
-    )
+    st.session_state["coords"] = {
+        "lat": result["geometry"]["location"]["lat"],
+        "lng": result["geometry"]["location"]["lng"],
+    }
+    st.session_state["accs"] = get_accidents(st.session_state["coords"], 1)
 
 
 st.sidebar.button("Find Address", on_click=get_lat_lon)
@@ -41,4 +43,6 @@ st.sidebar.button("Find Address", on_click=get_lat_lon)
 if "accs" not in st.session_state:
     st.session_state["accs"] = pd.DataFrame()
 if len(st.session_state["accs"]) > 0:
-    st.plotly_chart(kde(get_dayofweek(st.session_state["accs"])))
+    st.plotly_chart(
+        kde(get_dayofweek(st.session_state["accs"]), st.session_state["coords"])
+    )
