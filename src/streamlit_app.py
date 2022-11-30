@@ -15,7 +15,6 @@ st.title("Accidents in the United States")
 st.subheader("Visualize traffic safety in any neighborhood")
 
 address = st.sidebar.text_input("Lookup your address", key="address")
-radius = st.sidebar.text_input("Search radius", key="radius")
 split = st.sidebar.selectbox("Dependent variable", options=SPLIT_DICT.keys())
 
 
