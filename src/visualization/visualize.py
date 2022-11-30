@@ -1,4 +1,5 @@
 import plotly.express as px
+from src.data.cfg import days_of_week
 from src.data.preprocess import split_by
 import copy
 
@@ -10,11 +11,13 @@ def kde(accs, coords, split):
     del coords["lng"]
 
     accs, orders = split_by(accs, split)
+    if split == "None":
+        split = None
     fig = px.density_mapbox(
         accs,
         lat="Start_Lat",
         lon="Start_Lng",
-        z="weight",
+        z="accident concentration",
         radius=9,
         animation_frame=split,
         category_orders=orders,
