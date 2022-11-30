@@ -28,6 +28,8 @@ requirements: test_environment
 ## Make Dataset
 data: 
 	$(PYTHON_INTERPRETER) src/data/make_dataset.py data/raw data/processed
+database: 
+	$(PYTHON_INTERPRETER) src/data/sqlite_driver.py
 
 ## Delete all compiled Python files
 clean:

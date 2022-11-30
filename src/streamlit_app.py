@@ -1,6 +1,6 @@
 import streamlit as st
 from src.visualization.visualize import kde
-from src.data.gcp_pull import get_accidents
+from src.data.sqlite_queries import get_accidents
 from src.data.preprocess import get_dayofweek
 import os
 import dask.dataframe as dd

@@ -3,9 +3,19 @@ from sqlite3 import Error
 import csv
 import pandas as pd
 import dask.dataframe as dd
-COLS = ["ID","Severity","Start_Time","Start_Lat","Start_Lng","Precipitation(in)","Weather_Condition"]
 
-class Driver():
+COLS = [
+    "ID",
+    "Severity",
+    "Start_Time",
+    "Start_Lat",
+    "Start_Lng",
+    "Precipitation(in)",
+    "Weather_Condition",
+]
+
+
+class Driver:
     ############### DO NOT MODIFY THIS SECTION ###########################
     ######################################################################
     def create_connection(self, path):
@@ -15,7 +25,7 @@ class Driver():
             connection.text_factory = str
         except Error as e:
             print("Error occurred: " + str(e))
-    
+
         return connection
 
     def execute_query(self, connection, query):
@@ -47,7 +57,9 @@ class Driver():
 
     def import_data(self, connection, path):
         df = pd.read_parquet(path, columns=COLS)
-        df = df.rename(columns={"Start_Time": "Time", "Precipitation(in)": "Precipitation"})
+        df = df.rename(
+            columns={"Start_Time": "Time", "Precipitation(in)": "Precipitation"}
+        )
 
         def _insert(row, cols):
             columns = tuple(cols)
@@ -62,7 +74,11 @@ class Driver():
         df.apply(lambda x: _insert(x, df.columns), axis=1)
 
     def import_bulk(self, connection, path):
-        df = pd.read_parquet(path, columns=COLS).rename(columns={"Precipitation(in)": "Precipitation"}).fillna(0.0)
+        df = (
+            pd.read_parquet(path, columns=COLS)
+            .rename(columns={"Precipitation(in)": "Precipitation"})
+            .fillna(0.0)
+        )
         df["Start_Time"] = df["Start_Time"].astype(str)
         columns = tuple(df.columns)
         vals = ",\n".join([str(tuple(row)) for row in df.values])
@@ -70,7 +86,8 @@ class Driver():
         INSERT INTO accidents {columns}
         VALUES {vals}
         """
-        return self.execute_query(connection, sql)  
+        return self.execute_query(connection, sql)
+
 
 if __name__ == "__main__":
     db = Driver()
