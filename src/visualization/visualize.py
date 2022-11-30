@@ -1,5 +1,4 @@
 import plotly.express as px
-from src.data.cfg import days_of_week
 from src.data.preprocess import split_by
 import copy
 

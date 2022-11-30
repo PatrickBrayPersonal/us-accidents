@@ -2,9 +2,7 @@ import streamlit as st
 from src.visualization.visualize import kde
 from src.data.sqlite_queries import get_accidents
 import os
-import dask.dataframe as dd
 from dotenv import find_dotenv, load_dotenv
-from pathlib import Path
 import requests
 import pandas as pd
 from src.data.preprocess import SPLIT_DICT
