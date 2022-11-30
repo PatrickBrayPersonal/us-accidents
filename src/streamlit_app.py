@@ -1,13 +1,13 @@
 import streamlit as st
 from src.visualization.visualize import kde
 from src.data.sqlite_queries import get_accidents
-from src.data.preprocess import get_dayofweek
 import os
 import dask.dataframe as dd
 from dotenv import find_dotenv, load_dotenv
 from pathlib import Path
 import requests
 import pandas as pd
+from src.data.preprocess import SPLIT_DICT
 
 load_dotenv(find_dotenv())
 
@@ -18,6 +18,7 @@ st.subheader("Visualize traffic safety in any neighborhood")
 
 address = st.sidebar.text_input("Lookup your address", key="address")
 radius = st.sidebar.text_input("Search radius", key="radius")
+split = st.sidebar.selectbox("Dependent variable", options=SPLIT_DICT.keys())
 
 
 @st.cache
@@ -30,6 +31,7 @@ def get_lat_lon():
         + placesapikey
     )
     response = requests.request("GET", url, headers={}, data={})
+    print(response)
     result = response.json()["candidates"][0]
     st.session_state["coords"] = {
         "lat": result["geometry"]["location"]["lat"],
@@ -43,6 +45,4 @@ st.sidebar.button("Find Address", on_click=get_lat_lon)
 if "accs" not in st.session_state:
     st.session_state["accs"] = pd.DataFrame()
 if len(st.session_state["accs"]) > 0:
-    st.plotly_chart(
-        kde(get_dayofweek(st.session_state["accs"]), st.session_state["coords"])
-    )
+    st.plotly_chart(kde(st.session_state["accs"], st.session_state["coords"], split))
